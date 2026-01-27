@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OVZ Bird PWA</title>
+  <meta name="description" content="Discover the birds of Zug Aviaries">
+  <link rel="stylesheet" href="./style.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="manifest" href="./manifest.json">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <img src="./logo.png" alt="OVZ Logo" class="logo" />
+      <nav>
+        <button id="nav-birds" class="active">Birds</button>
+        <button id="nav-map">Map</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="view-birds" class="view active">
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search birds..." />
+        </div>
+        <div id="bird-list" class="grid">
+          <!-- Birds will be rendered here -->
+        </div>
+      </section>
+
+      <section id="view-map" class="view hidden">
+        <div id="map"></div>
+      </section>
+    </main>
+
+    <!-- Bird Detail Modal -->
+    <dialog id="bird-modal">
+      <div class="modal-content">
+        <button id="close-modal" aria-label="Close">&times;</button>
+        <h2 id="modal-title"></h2>
+        <p id="modal-category" class="badge"></p>
+        <div class="modal-image-container">
+          <img id="modal-image" src="" alt="" loading="lazy" />
+        </div>
+        <p id="modal-description">More details coming soon...</p>
+        <div class="modal-actions">
+           <!-- Links and buttons will be injected here -->
+        </div>
+      </div>
+    </dialog>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="./main.js"></script>
+</body> 
+</html>
