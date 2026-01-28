@@ -17,12 +17,17 @@
 <body>
   <div id="app">
     <header>
-      <a href="https://ovz-958b2c.webflow.io/" target="_blank" rel="noopener noreferrer">
-        <img src="./logo.png" alt="OVZ Logo" class="logo" />
-      </a>
-      <nav>
-        <button id="nav-birds" class="active">Birds</button>
-        <button id="nav-map">Map</button>
+      <div class="header-main">
+        <a href="https://ovz-958b2c.webflow.io/" target="_blank" rel="noopener noreferrer">
+          <img src="./logo.png" alt="OVZ Logo" class="logo" />
+        </a>
+        <nav>
+          <button id="nav-birds" class="active">Birds</button>
+          <button id="nav-map">Map</button>
+        </nav>
+      </div>
+      <nav id="family-filter" class="scroll-nav">
+        <!-- Family filters will be injected here -->
       </nav>
     </header>
 
@@ -60,4 +65,8 @@
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>

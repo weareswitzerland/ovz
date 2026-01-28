@@ -12,6 +12,7 @@ const modal = document.getElementById('bird-modal');
 const closeModalBtn = document.getElementById('close-modal');
 const modalTitle = document.getElementById('modal-title');
 const modalCategory = document.getElementById('modal-category');
+const familyFilterEl = document.getElementById('family-filter');
 
 // Add "Show Location" button to modal HTML dynamically or ensure it exists
 let modalLocationBtn = document.getElementById('modal-location-btn');
@@ -53,10 +54,12 @@ if (!modalActions.querySelector('#modal-location-btn')) {
 let mapInitialized = false;
 let mapInstance = null;
 let currentBirdLocationId = null;
+let activeCategory = 'Alle';
 
 // Initialize
 function init() {
-    renderBirds(birds);
+    renderFamilyFilter();
+    applyFilters();
     setupEventListeners();
 }
 
@@ -79,18 +82,59 @@ function renderBirds(list) {
     });
 }
 
+// Generate and Render Family Filter
+function renderFamilyFilter() {
+    const categories = ['Alle', ...new Set(birds.map(bird => bird.category))].sort();
+
+    familyFilterEl.innerHTML = '';
+    categories.forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = `filter-btn ${category === activeCategory ? 'active' : ''}`;
+        btn.textContent = category;
+        btn.addEventListener('click', () => {
+            activeCategory = category;
+            updateFilterButtons();
+            applyFilters();
+            // Scroll selected into view if needed
+            btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        });
+        familyFilterEl.appendChild(btn);
+    });
+}
+
+function updateFilterButtons() {
+    const buttons = familyFilterEl.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => {
+        if (btn.textContent === activeCategory) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Apply Filters (Search + Category)
+function applyFilters() {
+    const term = searchInput.value.toLowerCase();
+
+    const filtered = birds.filter(bird => {
+        const matchesSearch = bird.name.toLowerCase().includes(term) ||
+            bird.category.toLowerCase().includes(term);
+        const matchesCategory = activeCategory === 'Alle' || bird.category === activeCategory;
+
+        return matchesSearch && matchesCategory;
+    });
+
+    renderBirds(filtered);
+}
+
 // Event Listeners
 function setupEventListeners() {
     navBirds.addEventListener('click', () => switchView('birds'));
     navMap.addEventListener('click', () => switchView('map'));
 
     searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = birds.filter(bird =>
-            bird.name.toLowerCase().includes(term) ||
-            bird.category.toLowerCase().includes(term)
-        );
-        renderBirds(filtered);
+        applyFilters();
     });
 
     closeModalBtn.addEventListener('click', () => modal.close());
